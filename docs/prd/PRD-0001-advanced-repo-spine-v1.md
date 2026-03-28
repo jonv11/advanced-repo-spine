@@ -6,7 +6,7 @@
 - **Slug:** `advanced-repo-spine`
 - **Working short name:** `ARS`
 - **Version:** `v1.0`
-- **Status:** Draft
+- **Status:** Proposed
 - **Type:** Product Requirements Document
 - **Primary form factor:** Cross-platform CLI
 - **Target runtime:** .NET

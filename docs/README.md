@@ -4,9 +4,10 @@ A practical guide and reusable templates for writing PRDs, RFCs, and ADRs that a
 
 ## Contents
 
-### Guide
+### Guides
 
 - **[Documentation Quality Guide](guides/documentation-quality-guide.md)** — What makes PRDs, RFCs, and ADRs high quality and implementation-ready, with dedicated guidance for AI-assisted implementation, anti-patterns, and review checklists.
+- **[Development Cycle Workflow](guides/development-cycle-workflow.md)** — End-to-end workflow for the full pipeline: Ideation → PRD → RFC → ADR → Implementation → Validation.
 
 ### Templates
 
