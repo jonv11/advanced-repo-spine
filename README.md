@@ -36,7 +36,7 @@ See [`docs/README.md`](docs/README.md) for the full documentation landing page, 
 
 **Phase:** Documentation & design (pre-implementation)
 
-The product's own requirements are being defined using the same documentation standards the tool will enforce. See [PRD-0001](docs/prd/PRD-0001-advanced-repo-spine-v1.md).
+The product's own requirements are being defined using the same documentation standards the tool will enforce. See [PRD-0001](docs/prd/PRD-0001-advanced-ars-v1.md).
 
 ## Technical Stack
 

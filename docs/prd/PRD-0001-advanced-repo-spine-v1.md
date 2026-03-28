@@ -3,10 +3,10 @@
 ## Document Metadata
 
 - **Product name:** Advanced Repo Spine
-- **Slug:** `advanced-repo-spine`
+- **Slug:** `advanced-ars`
 - **Working short name:** `ARS`
 - **Version:** `v1.0`
-- **Status:** Proposed
+- **Status:** Approved
 - **Type:** Product Requirements Document
 - **Primary form factor:** Cross-platform CLI
 - **Target runtime:** .NET
@@ -341,12 +341,12 @@ ars export
 ### Suggested high-level argument examples
 
 ```text
-ars init --path repo-spine.json
-ars validate --model repo-spine.json
-ars compare --model repo-spine.json --root .
-ars report --model repo-spine.json --root . --format text
-ars suggest docs/adr/0001-use-json.md --model repo-spine.json
-ars export --model repo-spine.json --root . --format json
+ars init --path ars.json
+ars validate --model ars.json
+ars compare --model ars.json --root .
+ars report --model ars.json --root . --format text
+ars suggest docs/adr/0001-use-json.md --model ars.json
+ars export --model ars.json --root . --format json
 ```
 
 ### Notes

@@ -46,7 +46,7 @@ Cross-reference between documents — RFCs reference PRDs, ADRs link to RFCs/PRD
 
 ## Naming Conventions
 
-- PRDs: `PRD-NNNN-<slug>.md` (e.g., `PRD-0001-advanced-repo-spine-v1.md`)
+- PRDs: `PRD-NNNN-<slug>.md` (e.g., `PRD-0001-advanced-ars-v1.md`)
 - RFCs: `RFC-NNNN-<slug>.md` (e.g., `RFC-0001-cli-architecture.md`)
 - ADRs: `ADR-NNNN-<slug>.md` (e.g., `ADR-0001-use-dotnet-for-cli.md`)
 
