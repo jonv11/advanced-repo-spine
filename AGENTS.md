@@ -52,7 +52,7 @@ Documents cross-reference each other. Always check for existing related document
 
 | Type | Pattern | Example |
 |------|---------|---------|
-| PRD | `PRD-NNNN-<slug>.md` | `PRD-0001-advanced-ars-v1.md` |
+| PRD | `PRD-NNNN-<slug>.md` | `PRD-0001-ars-v1.md` |
 | RFC | `RFC-NNNN-<slug>.md` | `RFC-0001-cli-architecture.md` |
 | ADR | `ADR-NNNN-<slug>.md` | `ADR-0001-use-dotnet-for-cli.md` |
 

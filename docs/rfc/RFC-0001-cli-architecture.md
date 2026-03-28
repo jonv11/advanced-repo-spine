@@ -6,7 +6,7 @@
 | **Owner(s)** | — |
 | **Reviewers** | — |
 | **Date** | 2026-03-28 |
-| **Related PRD** | [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-advanced-ars-v1.md) |
+| **Related PRD** | [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-ars-v1.md) |
 | **Related Links** | [ADR-0001](../adr/ADR-0001-use-dotnet-for-cli.md), [ADR-0002](../adr/ADR-0002-use-spectre-console.md), [ADR-0003](../adr/ADR-0003-use-json-model-format.md), [ADR-0004](../adr/ADR-0004-v1-read-only.md), [ADR-0005](../adr/ADR-0005-v1-model-schema.md), [ADR-0006](../adr/ADR-0006-comparison-semantics.md), [ADR-0007](../adr/ADR-0007-report-export-aliases.md), [ADR-0008](../adr/ADR-0008-default-model-filename.md) |
 
 ---
@@ -109,7 +109,7 @@ The PRD defines *what* the CLI must do but does not specify *how* the components
 A single .NET solution with two projects:
 
 ```
-advanced-ars/
+ars/
 ├── src/
 │   └── Ars.Cli/                     # Console application (entry point + commands)
 │       ├── Ars.Cli.csproj
@@ -706,4 +706,4 @@ All ADRs have been accepted. Implementation can begin following the project stru
 
 | Document | Relationship |
 |----------|-------------|
-| [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-advanced-ars-v1.md) | Originating requirements document. This RFC proposes how to implement PRD-0001. |
+| [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-ars-v1.md) | Originating requirements document. This RFC proposes how to implement PRD-0001. |

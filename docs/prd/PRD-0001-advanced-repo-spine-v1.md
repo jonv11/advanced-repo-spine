@@ -3,10 +3,10 @@
 ## Document Metadata
 
 - **Product name:** Advanced Repo Spine
-- **Slug:** `advanced-ars`
+- **Slug:** `advanced-repo-spine`
 - **Working short name:** `ARS`
 - **Version:** `v1.0`
-- **Status:** Approved
+- **Status:** Implemented
 - **Type:** Product Requirements Document
 - **Primary form factor:** Cross-platform CLI
 - **Target runtime:** .NET

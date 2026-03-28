@@ -6,7 +6,7 @@
 | **Date** | 2026-03-28 |
 | **Owner(s) / Deciders** | — |
 | **Related RFC** | [RFC-0001 — CLI Architecture](../rfc/RFC-0001-cli-architecture.md) |
-| **Related Links** | [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-advanced-ars-v1.md) |
+| **Related Links** | [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-ars-v1.md) |
 
 ---
 
@@ -91,6 +91,6 @@ System.CommandLine was rejected due to its long-running beta status and lack of 
 
 | Document | Relationship |
 |----------|-------------|
-| [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-advanced-ars-v1.md) | Defines the CLI framework constraint (§13.2) |
+| [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-ars-v1.md) | Defines the CLI framework constraint (§13.2) |
 | [RFC-0001 — CLI Architecture](../rfc/RFC-0001-cli-architecture.md) | Uses Spectre.Console.Cli for command routing |
 | [ADR-0001 — Use .NET for CLI](ADR-0001-use-dotnet-for-cli.md) | Runtime prerequisite for Spectre.Console |
