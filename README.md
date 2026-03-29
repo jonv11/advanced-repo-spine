@@ -40,9 +40,9 @@ See [`docs/README.md`](docs/README.md) for the full documentation landing page, 
 
 ## Project Status
 
-**Phase:** v1.0
+**Current release:** `v1.0.0`
 
-The CLI is functional with 7 commands. See [PRD-0001](docs/prd/PRD-0001-advanced-repo-spine-v1.md).
+The CLI is functional with 7 commands. Generated models use schema version `"1.0"`. See [PRD-0001](docs/prd/PRD-0001-advanced-repo-spine-v1.md).
 
 ## Technical Stack
 
