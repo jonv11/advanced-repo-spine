@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 - GitHub Actions release asset workflow that publishes packaged binaries for Windows, Linux, and macOS and uploads them to GitHub Releases with SHA-256 checksums
 
+### Fixed
+
+- Release asset uploads now target the GitHub repository explicitly, so tag backfills work without requiring a checked-out git repository in the upload job
+
 ## [1.0.0] — 2026-03-29
 
 ### Added
