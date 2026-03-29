@@ -6,6 +6,8 @@
     <RootNamespace>Ars.Cli</RootNamespace>
     <AssemblyName>ars</AssemblyName>
     <Version>1.0.0</Version>
+    <InformationalVersion>$(Version)</InformationalVersion>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -14,5 +16,16 @@
     <PackageReference Include="Spectre.Console" Version="0.54.0" />
     <PackageReference Include="Spectre.Console.Cli" Version="0.53.1" />
   </ItemGroup>
+
+  <Target Name="SetInformationalVersionFromSourceRevision"
+          BeforeTargets="GetAssemblyAttributes"
+          DependsOnTargets="GetAssemblyVersion;InitializeSourceControlInformation">
+    <PropertyGroup>
+      <_ShortSourceRevisionId Condition="'$(SourceRevisionId)' != '' and $([System.String]::Copy('$(SourceRevisionId)').Length) &gt;= 7">$([System.String]::Copy('$(SourceRevisionId)').Substring(0, 7))</_ShortSourceRevisionId>
+      <_ShortSourceRevisionId Condition="'$(SourceRevisionId)' != '' and $([System.String]::Copy('$(SourceRevisionId)').Length) &lt; 7">$(SourceRevisionId)</_ShortSourceRevisionId>
+      <InformationalVersion Condition="'$(_ShortSourceRevisionId)' != ''">$(Version)+sha.$(_ShortSourceRevisionId)</InformationalVersion>
+      <InformationalVersion Condition="'$(_ShortSourceRevisionId)' == ''">$(Version)</InformationalVersion>
+    </PropertyGroup>
+  </Target>
 
 </Project>

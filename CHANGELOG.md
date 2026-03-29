@@ -34,4 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
   - Dependabot configuration for NuGet and GitHub Actions
   - Security policy (GitHub private vulnerability reporting) and support guide
   - .editorconfig, .gitattributes, global.json
-  - `docs/project/publication-readiness-assessment.md`
+
+### Changed
+
+- `ars --version` reports SemVer build metadata with the short Git commit hash when Git metadata is available, for example `1.0.0+sha.1851306`

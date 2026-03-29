@@ -6,7 +6,7 @@ This document defines the versioning rules for Advanced Repo Spine.
 
 ARS follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
-Version format: **MAJOR.MINOR.PATCH**
+Release version format: **MAJOR.MINOR.PATCH**
 
 ## Current version
 
@@ -62,13 +62,21 @@ v1.1.0-beta.1
 v1.1.0-rc.1
 ```
 
+Built artifacts may append SemVer build metadata:
+
+```
+1.0.0+sha.1851306
+```
+
+This metadata is for build identification only. It does not change version precedence and is not used in git tags, changelog headings, or release names.
+
 ## Version location
 
-The version is maintained in a single location:
+The release version is maintained in a single location:
 
 - **`src/Ars.Cli/Ars.Cli.csproj`** — the `<Version>` property
 
-This is the source of truth. The assembly version, file version, and `--version` output all derive from this property.
+This is the source of truth for the release version. The assembly version and file version derive from it directly. The `--version` output derives from the assembly informational version, which uses the same release version and may append `+sha.<short-hash>` when Git metadata is available. If Git metadata is unavailable, `--version` falls back to the plain release version.
 
 ## Pre-release conventions
 

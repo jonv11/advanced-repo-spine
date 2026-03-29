@@ -46,8 +46,12 @@ dotnet test Ars.sln -c Release --verbosity normal
 
 # Smoke test the CLI
 dotnet run --project src/Ars.Cli -c Release -- --help
-dotnet run --project src/Ars.Cli -c Release -- validate --model ars.json
+dotnet run --project src/Ars.Cli -c Release -- --version
+dotnet run --project src/Ars.Cli -c Release -- init --path ars.release-smoke.json --force
+dotnet run --project src/Ars.Cli -c Release -- validate --model ars.release-smoke.json
 ```
+
+`ars --version` may display SemVer build metadata such as `1.0.0+sha.1851306` when Git metadata is available. The release tag remains `vX.Y.Z`.
 
 ### 3. Merge and tag
 
