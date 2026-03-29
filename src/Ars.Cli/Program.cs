@@ -1,12 +1,20 @@
-﻿using Ars.Cli.Commands;
+﻿using System.Reflection;
+using Ars.Cli.Commands;
 using Ars.Cli.Infrastructure;
+using Spectre.Console;
 using Spectre.Console.Cli;
 
 var app = new CommandApp();
 
 app.Configure(config =>
 {
+    var version = typeof(Program).Assembly
+        .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+        ?.InformationalVersion ?? "0.0.0";
+
     config.SetApplicationName("ars");
+    config.SetApplicationVersion(version);
+
     config.AddCommand<InitCommand>("init")
         .WithDescription("Create a starter JSON model file.");
     config.AddCommand<ValidateCommand>("validate")
@@ -25,7 +33,8 @@ try
 {
     return app.Run(args);
 }
-catch (Exception)
+catch (Exception ex)
 {
+    ErrorConsole.Stderr.MarkupLine($"[red]Error:[/] {Markup.Escape(ex.Message)}");
     return ExitCodes.InternalError;
 }

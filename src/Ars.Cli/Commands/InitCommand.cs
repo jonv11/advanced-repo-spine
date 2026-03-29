@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Ars.Cli.Infrastructure;
@@ -10,9 +11,11 @@ namespace Ars.Cli.Commands;
 public sealed class InitSettings : CommandSettings
 {
     [CommandOption("--path")]
+    [Description("Path for the output model file [default: ars.json]")]
     public string Path { get; set; } = "ars.json";
 
     [CommandOption("--force")]
+    [Description("Overwrite existing file without prompting")]
     public bool Force { get; set; }
 }
 
@@ -30,7 +33,7 @@ public sealed class InitCommand : Command<InitSettings>
 
         if (File.Exists(fullPath) && !settings.Force)
         {
-            AnsiConsole.MarkupLine($"[red]Error:[/] File '{Markup.Escape(fullPath)}' already exists. Use --force to overwrite.");
+            ErrorConsole.Stderr.MarkupLine($"[red]Error:[/] File '{Markup.Escape(fullPath)}' already exists. Use --force to overwrite.");
             return ExitCodes.InvalidInput;
         }
 
@@ -43,7 +46,7 @@ public sealed class InitCommand : Command<InitSettings>
 
         File.WriteAllText(fullPath, json);
 
-        AnsiConsole.MarkupLine($"[green]Created model file:[/] {Markup.Escape(fullPath)}");
+        ErrorConsole.Stderr.MarkupLine($"[green]Created model file:[/] {Markup.Escape(fullPath)}");
         return ExitCodes.Success;
     }
 

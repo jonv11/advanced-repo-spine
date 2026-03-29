@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Ars.Cli.Infrastructure;
@@ -11,12 +12,15 @@ namespace Ars.Cli.Commands;
 public sealed class SuggestSettings : CommandSettings
 {
     [CommandArgument(0, "<path>")]
+    [Description("Path or path-like hint to suggest placement for")]
     public string Path { get; set; } = string.Empty;
 
     [CommandOption("--model")]
+    [Description("Path to the JSON model file [default: ars.json]")]
     public string Model { get; set; } = "ars.json";
 
     [CommandOption("--format")]
+    [Description("Output format: text or json [default: text]")]
     public string Format { get; set; } = "text";
 }
 
@@ -31,6 +35,12 @@ public sealed class SuggestCommand : Command<SuggestSettings>
 
     public override int Execute(CommandContext context, SuggestSettings settings)
     {
+        if (!OptionValidation.TryValidateFormat(settings.Format, out var formatError))
+        {
+            ErrorConsole.Stderr.MarkupLine($"[red]Error:[/] {Markup.Escape(formatError!)}");
+            return ExitCodes.InvalidInput;
+        }
+
         RepoModel model;
         try
         {
@@ -38,12 +48,21 @@ public sealed class SuggestCommand : Command<SuggestSettings>
         }
         catch (FileNotFoundException ex)
         {
-            AnsiConsole.MarkupLine($"[red]Error:[/] {Markup.Escape(ex.Message)}");
+            ErrorConsole.Stderr.MarkupLine($"[red]Error:[/] {Markup.Escape(ex.Message)}");
             return ExitCodes.InvalidInput;
         }
         catch (InvalidOperationException ex)
         {
-            AnsiConsole.MarkupLine($"[red]Error:[/] {Markup.Escape(ex.Message)}");
+            ErrorConsole.Stderr.MarkupLine($"[red]Error:[/] {Markup.Escape(ex.Message)}");
+            return ExitCodes.InvalidInput;
+        }
+
+        var validationErrors = ModelValidator.Validate(model);
+        if (validationErrors.Count > 0)
+        {
+            ErrorConsole.Stderr.MarkupLine($"[red]Model validation failed with {validationErrors.Count} error(s):[/]");
+            foreach (var error in validationErrors)
+                ErrorConsole.Stderr.MarkupLine($"  [red]•[/] [{Markup.Escape(error.Location)}] {Markup.Escape(error.Message)}");
             return ExitCodes.InvalidInput;
         }
 

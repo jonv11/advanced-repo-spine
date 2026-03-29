@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Ars.Cli.Comparison;
 using Ars.Cli.Infrastructure;
 using Ars.Cli.Model;
@@ -11,12 +12,15 @@ namespace Ars.Cli.Commands;
 public sealed class CompareSettings : CommandSettings
 {
     [CommandOption("--model")]
+    [Description("Path to the JSON model file [default: ars.json]")]
     public string Model { get; set; } = "ars.json";
 
     [CommandOption("--root")]
+    [Description("Root directory to compare against [default: .]")]
     public string Root { get; set; } = ".";
 
     [CommandOption("--format")]
+    [Description("Output format: text or json [default: text]")]
     public string Format { get; set; } = "text";
 }
 
@@ -29,6 +33,12 @@ public sealed class CompareCommand : Command<CompareSettings>
 
     public static int ExecuteCompare(string modelPath, string root, string format)
     {
+        if (!OptionValidation.TryValidateFormat(format, out var formatError))
+        {
+            ErrorConsole.Stderr.MarkupLine($"[red]Error:[/] {Markup.Escape(formatError!)}");
+            return ExitCodes.InvalidInput;
+        }
+
         RepoModel model;
         try
         {
@@ -36,21 +46,21 @@ public sealed class CompareCommand : Command<CompareSettings>
         }
         catch (FileNotFoundException ex)
         {
-            AnsiConsole.MarkupLine($"[red]Error:[/] {Markup.Escape(ex.Message)}");
+            ErrorConsole.Stderr.MarkupLine($"[red]Error:[/] {Markup.Escape(ex.Message)}");
             return ExitCodes.InvalidInput;
         }
         catch (InvalidOperationException ex)
         {
-            AnsiConsole.MarkupLine($"[red]Error:[/] {Markup.Escape(ex.Message)}");
+            ErrorConsole.Stderr.MarkupLine($"[red]Error:[/] {Markup.Escape(ex.Message)}");
             return ExitCodes.InvalidInput;
         }
 
         var validationErrors = ModelValidator.Validate(model);
         if (validationErrors.Count > 0)
         {
-            AnsiConsole.MarkupLine($"[red]Model validation failed with {validationErrors.Count} error(s):[/]");
+            ErrorConsole.Stderr.MarkupLine($"[red]Model validation failed with {validationErrors.Count} error(s):[/]");
             foreach (var error in validationErrors)
-                AnsiConsole.MarkupLine($"  [red]•[/] [{Markup.Escape(error.Location)}] {Markup.Escape(error.Message)}");
+                ErrorConsole.Stderr.MarkupLine($"  [red]•[/] [{Markup.Escape(error.Location)}] {Markup.Escape(error.Message)}");
             return ExitCodes.InvalidInput;
         }
 
@@ -61,7 +71,7 @@ public sealed class CompareCommand : Command<CompareSettings>
         }
         catch (DirectoryNotFoundException ex)
         {
-            AnsiConsole.MarkupLine($"[red]Error:[/] {Markup.Escape(ex.Message)}");
+            ErrorConsole.Stderr.MarkupLine($"[red]Error:[/] {Markup.Escape(ex.Message)}");
             return ExitCodes.InvalidInput;
         }
 

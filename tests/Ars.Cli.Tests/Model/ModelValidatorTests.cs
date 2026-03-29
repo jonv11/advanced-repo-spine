@@ -168,4 +168,69 @@ public class ModelValidatorTests
         var errors = ModelValidator.Validate(model);
         Assert.Empty(errors);
     }
+
+    [Fact]
+    public void Validate_CaseInsensitive_DuplicatePaths_ReturnsError()
+    {
+        var model = new RepoModel
+        {
+            Version = "1.0",
+            Name = "Test",
+            Rules = new ModelRules { CaseSensitive = false },
+            Items = new List<ModelItem>
+            {
+                new() { Name = "readme1", Type = "file", Path = "README.md", Required = true },
+                new() { Name = "readme2", Type = "file", Path = "readme.md", Required = true }
+            }
+        };
+
+        var errors = ModelValidator.Validate(model);
+        Assert.Contains(errors, e => e.Code == "DUPLICATE_PATH" && e.Message.Contains("Duplicate path"));
+    }
+
+    [Fact]
+    public void Validate_CaseSensitive_DifferentCasePaths_ReturnsNoError()
+    {
+        var model = new RepoModel
+        {
+            Version = "1.0",
+            Name = "Test",
+            Rules = new ModelRules { CaseSensitive = true },
+            Items = new List<ModelItem>
+            {
+                new() { Name = "readme1", Type = "file", Path = "README.md", Required = true },
+                new() { Name = "readme2", Type = "file", Path = "readme.md", Required = true }
+            }
+        };
+
+        var errors = ModelValidator.Validate(model);
+        Assert.DoesNotContain(errors, e => e.Code == "DUPLICATE_PATH");
+    }
+
+    [Fact]
+    public void Validate_ErrorsHaveCorrectCodes()
+    {
+        var model = ValidModel();
+        model.Version = "";
+        var errors = ModelValidator.Validate(model);
+        Assert.Contains(errors, e => e.Code == "MISSING_FIELD" && e.Location == "version");
+    }
+
+    [Fact]
+    public void Validate_InvalidVersion_HasInvalidValueCode()
+    {
+        var model = ValidModel();
+        model.Version = "2.0";
+        var errors = ModelValidator.Validate(model);
+        Assert.Contains(errors, e => e.Code == "INVALID_VALUE" && e.Location == "version");
+    }
+
+    [Fact]
+    public void Validate_BackslashInPath_HasInvalidPathFormatCode()
+    {
+        var model = ValidModel();
+        model.Items[0].Path = "docs\\README.md";
+        var errors = ModelValidator.Validate(model);
+        Assert.Contains(errors, e => e.Code == "INVALID_PATH_FORMAT");
+    }
 }
