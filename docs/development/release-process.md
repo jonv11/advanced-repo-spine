@@ -92,13 +92,13 @@ Refer to the [versioning policy](versioning-policy.md) for detailed rules. In su
 
 The following items must be resolved before the first public release:
 
-- [ ] **License selected and LICENSE file added** — currently marked as TBD
-- [ ] **CODEOWNERS configured** — requires GitHub usernames
-- [ ] **README badges added** — CI status, version, license (require GitHub repo URL)
-- [ ] **Branch protection rules configured** — require reviews, status checks on `main`
-- [ ] **Issue labels created** — see [GitHub workflow](github-workflow.md) for the label set
-- [ ] **Security contact email set** — replace placeholder in `.github/SECURITY.md`
-- [ ] **Repository description and topics set** — on the GitHub repository settings page
+- [x] **License selected and LICENSE file added** — Apache License 2.0; `LICENSE` added
+- [x] **CODEOWNERS configured** — `.github/CODEOWNERS` with `@jonv11`
+- [x] **README badges added** — CI status, license, latest release
+- [x] **Branch protection rules configured** — PRs required, 1 approval, CI status checks, no force-push, no delete
+- [x] **Issue labels created** — `bug`, `feature`, `docs`, `chore`, `breaking`, `good first issue`, `wontfix`, `duplicate`
+- [x] **Security contact email set** — GitHub private vulnerability reporting
+- [x] **Repository description and topics set** — configured on `jonv11/advanced-repo-spine`
 
 ---
 

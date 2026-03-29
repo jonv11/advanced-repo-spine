@@ -1,0 +1,8 @@
+# CODEOWNERS — Advanced Repo Spine
+#
+# @jonv11 is the sole maintainer and owns all files.
+# All pull requests will request a review from @jonv11.
+#
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+* @jonv11

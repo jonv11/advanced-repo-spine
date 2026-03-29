@@ -14,8 +14,7 @@ If you discover a security vulnerability in Advanced Repo Spine, please report i
 
 **Do not open a public GitHub issue for security vulnerabilities.**
 
-<!-- TODO: Replace with actual contact before GitHub publication -->
-Instead, please email: **[MAINTAINER_EMAIL_TBD]**
+Use GitHub's [private vulnerability reporting](https://github.com/jonv11/advanced-repo-spine/security/advisories/new) to submit a report confidentially. This keeps the details private until a fix is available.
 
 Include the following in your report:
 

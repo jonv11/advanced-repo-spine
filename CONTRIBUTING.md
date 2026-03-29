@@ -12,7 +12,7 @@ Thank you for your interest in contributing to ARS. This guide covers what you n
 
 ```bash
 # Clone the repository
-git clone <repo-url>
+git clone https://github.com/jonv11/advanced-repo-spine.git
 cd advanced-repo-spine
 
 # Build the solution

@@ -6,19 +6,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## [Unreleased]
 
-### Added
-
-- Repository governance and contributor infrastructure
-  - CONTRIBUTING.md with quick-start guide
-  - Development guides: branching/commits, versioning, release process, GitHub workflow
-  - PR template, issue templates (bug report, feature request)
-  - CI workflow (build and test on ubuntu, windows, macos)
-  - Dependabot configuration for NuGet and GitHub Actions
-  - Security policy and support guide
-  - .editorconfig, .gitattributes, global.json
-  - CHANGELOG.md (this file)
-  - Pre-release assessment and readiness report
-
 ## [1.0.0] — 2026-03-29
 
 ### Added
@@ -36,3 +23,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - Cross-platform support (Windows, Linux, macOS)
 - Documentation pipeline: PRD → RFC → ADR with templates and interactive prompts
 - 11 Architecture Decision Records documenting key design choices
+- LICENSE file (Apache License 2.0)
+- CODEOWNERS (`.github/CODEOWNERS`) — `@jonv11` owns all files
+- README badges — CI status, license, latest release
+- Repository governance and contributor infrastructure
+  - CONTRIBUTING.md with quick-start guide
+  - Development guides: branching/commits, versioning, release process, GitHub workflow
+  - PR template, issue templates (bug report, feature request)
+  - CI workflow (build and test on ubuntu, windows, macos)
+  - Dependabot configuration for NuGet and GitHub Actions
+  - Security policy (GitHub private vulnerability reporting) and support guide
+  - .editorconfig, .gitattributes, global.json
+  - `docs/project/publication-readiness-assessment.md`

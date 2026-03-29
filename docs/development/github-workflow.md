@@ -82,12 +82,14 @@ See the [development cycle workflow](../guides/development-cycle-workflow.md) fo
 
 ---
 
-## Branch protection (to configure after GitHub publication)
+## Branch protection
 
-Once the GitHub repository exists, configure these protections on `main`:
+The following protections are configured on `main`:
 
-- Require pull request reviews before merging
-- Require status checks to pass (CI workflow)
-- Require branches to be up to date before merging
-- Do not allow force pushes
-- Do not allow branch deletion
+- Pull request required before merging (no direct pushes to `main`)
+- 1 required approving review (enforced via CODEOWNERS — `@jonv11`)
+- Required status checks: `Build & Test (ubuntu-latest)`, `Build & Test (windows-latest)`, `Build & Test (macos-latest)`
+- Branches must be up to date before merging
+- Force-push blocked
+- Branch deletion blocked
+- Conversations must be resolved before merging

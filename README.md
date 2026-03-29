@@ -2,6 +2,10 @@
 
 **The structural backbone for repositories built by humans and AI.**
 
+[![CI](https://github.com/jonv11/advanced-repo-spine/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/jonv11/advanced-repo-spine/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Latest Release](https://img.shields.io/github/v/release/jonv11/advanced-repo-spine?label=latest)](https://github.com/jonv11/advanced-repo-spine/releases)
+
 Advanced Repo Spine (ARS) is a cross-platform .NET CLI that uses a JSON model to explain, validate, and guide repository structure for humans and AI agents.
 
 ## What It Does
@@ -64,4 +68,4 @@ See [CHANGELOG.md](CHANGELOG.md) for version history.
 
 ## License
 
-TBD — license will be selected before first public release.
+Licensed under the [Apache License 2.0](LICENSE).
