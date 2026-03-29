@@ -38,6 +38,7 @@ msbuild.wrn
 TestResult.xml
 coverage/
 .black-box-testing/
+.code-review/
 
 # Misc
 *.tmp

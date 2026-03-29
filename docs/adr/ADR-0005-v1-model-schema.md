@@ -130,6 +130,22 @@ Fields listed in PRD §15.3.1 as "optional future fields" (`tags`, `aliases`, `a
 - Deep nesting produces visually dense JSON
 - Explicit `path` on every item is redundant with hierarchy — but this is intentional for clarity
 
+## Amendment: Case-Sensitivity Scope (2026-03-29)
+
+The `rules.caseSensitive` flag controls whether path matching treats uppercase and lowercase characters as equivalent. This amendment clarifies the exact scope of that flag across all operations that compare or inspect model paths.
+
+### Comparison path matching
+
+The comparison engine (ADR-0006) uses `caseSensitive` to select the `StringComparer` for its path-lookup dictionary. When `caseSensitive` is `false`, `README.md` and `readme.md` resolve to the same model item. This is the primary use of the flag and is implemented correctly.
+
+### Validation duplicate-path detection
+
+The model validator must detect duplicate paths using the same case-sensitivity semantics as the comparison engine. When `caseSensitive` is `false`, two items at paths `README.md` and `readme.md` are duplicates — only one would survive in the comparison dictionary, and the other would be silently dropped. The validator's `seenPaths` set must use a `StringComparer` consistent with the model's `caseSensitive` flag, not an unconditional `StringComparer.Ordinal`.
+
+### Ignore pattern matching
+
+Ignore patterns (`rules.ignore`) are always matched case-insensitively, regardless of the `caseSensitive` flag. This is a deliberate v1 simplification: ignore lists typically contain platform artifacts (`.git/`, `bin/`, `obj/`) where case variation is accidental, and making ignore matching case-sensitive would create cross-platform ergonomics issues (e.g., `.Git/` on macOS vs. `.git/` on Linux). Future versions may revisit this if use cases require case-sensitive ignore patterns.
+
 ## Related Documents
 
 | Document | Relationship |

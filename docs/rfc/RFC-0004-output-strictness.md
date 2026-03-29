@@ -1,29 +1,32 @@
-# RFC-0004 — Comparison Output Strictness and Invalid Option Handling
+# RFC-0004 — Output Strictness and Invalid Option Handling
 
 | Field | Value |
 |-------|-------|
-| **Status** | Draft |
+| **Status** | Accepted |
+| **Target Release** | v1 |
 | **Owner(s)** | — |
 | **Reviewers** | — |
 | **Date** | 2026-03-29 |
 | **Related PRD** | [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-advanced-repo-spine-v1.md) |
-| **Related Links** | [RFC-0001 — CLI Architecture](RFC-0001-cli-architecture.md), [ADR-0007 — Report/Export Aliases](../adr/ADR-0007-report-export-aliases.md), [ADR-0006 — Comparison Semantics](../adr/ADR-0006-comparison-semantics.md) |
+| **Related Links** | [RFC-0001 — CLI Architecture](RFC-0001-cli-architecture.md), [RFC-0002 — Output/Error Contract](RFC-0002-output-error-contract.md), [ADR-0007 — Report/Export Aliases](../adr/ADR-0007-report-export-aliases.md), [ADR-0006 — Comparison Semantics](../adr/ADR-0006-comparison-semantics.md) |
 
 ---
 
 ## Summary
 
-This RFC proposes that ARS reject invalid option values with a clear error and non-zero exit code rather than silently defaulting. Black-box testing found that `ars compare --format xml` silently produces text output with exit code 0, giving no indication that the requested format was not applied. This violates the fail-fast principle and deterministic behavior contract established by ADR-0006 and ADR-0007. The fix is narrow — validate `--format` before executing the command — but the policy is cross-cutting: all option values with a finite valid set should be validated upfront.
+This RFC requires that ARS reject invalid option values with a clear error and exit code 2 rather than silently defaulting. The policy applies to all options with a finite valid set: `--format` on `compare`, `report`, `export`, `suggest`, and `validate`. Accepted values are validated case-insensitively. For v1, validation uses string comparison with an explicit helper rather than enum conversion, keeping full control over user-facing error messages. Error output goes to stderr per RFC-0002.
 
 ---
 
 ## Context / Background
 
-ADR-0007 establishes that `compare`, `report`, and `export` share a single code path with a `--format` flag accepting `text` or `json`. ADR-0007 has been amended to explicitly require that unsupported `--format` values be rejected with exit code 2.
+ADR-0007 establishes that `compare`, `report`, and `export` share a single code path with a `--format` flag accepting `text` or `json`. The `suggest` command also accepts `--format`, and RFC-0002 adds `--format` to `validate`.
 
 Currently, the `CompareCommand` implementation uses a string match to select the output formatter. When the format value does not match any known formatter, the code falls through to the default (text) output without warning. This creates a silent failure: the user requests a format, receives a different one, and has no way to detect the mismatch except by inspecting the output.
 
 This behavior is especially harmful in automation, where a script might request `--format json` with a typo (`--format jsn`) and receive text output that breaks the downstream JSON parser — with exit code 0 suggesting success.
+
+ADR-0007 has been amended to explicitly require that unsupported `--format` values be rejected with exit code 2.
 
 ---
 
@@ -35,9 +38,9 @@ Invalid option values are silently accepted instead of being rejected. This viol
 
 ## Goals
 
-- G-1: Invalid `--format` values produce a clear error message naming the valid values and exit code 2
+- G-1: Invalid `--format` values produce a clear error message and exit code 2
 - G-2: Establish a general policy that options with finite valid value sets are validated before command execution
-- G-3: Error messages for invalid options are written to stderr (consistent with RFC-0002)
+- G-3: Error messages for invalid options are written to stderr (per RFC-0002)
 
 ## Non-Goals
 
@@ -51,11 +54,12 @@ Invalid option values are silently accepted instead of being rejected. This viol
 
 | ID | Requirement | Priority | Source |
 |----|-------------|----------|--------|
-| R-1 | `--format` must reject values other than `text` and `json` with exit code 2 | Must | ADR-0007 amendment, QOL-004 finding |
-| R-2 | The error message must name the invalid value and list valid values | Must | Usability |
-| R-3 | Validation must occur before command execution (fail-fast) | Must | ADR-0007 rationale |
-| R-4 | The error message must go to stderr | Should | RFC-0002 |
-| R-5 | The same validation pattern should apply to any future options with finite valid value sets | Should | Consistency |
+| R-1 | `--format` must reject values other than `text` and `json` with exit code 2 | Must | ADR-0007 amendment |
+| R-2 | Accepted `--format` values must be validated case-insensitively (e.g., `JSON`, `Json`, `json` are all accepted) | Must | Usability |
+| R-3 | The error message must name the invalid value and list valid values | Must | Usability |
+| R-4 | Validation must occur before command execution (fail-fast) | Must | ADR-0007 rationale |
+| R-5 | The error message must go to stderr | Must | RFC-0002 |
+| R-6 | The same validation policy applies to any current or future options with finite valid value sets | Must | Consistency |
 
 ---
 
@@ -63,20 +67,30 @@ Invalid option values are silently accepted instead of being rejected. This viol
 
 ### Validation Approach
 
-Add format validation at the start of the command's `Execute` method (or in a shared validation helper):
+Use string comparison with an explicit shared helper rather than enum conversion. This keeps the CLI in full control of the user-facing error message, which matters for a tool targeting both humans and AI agents.
+
+A shared helper avoids duplicating validation logic across `compare`, `suggest`, and `validate` (and transitively `report` and `export`, which delegate to `compare`):
 
 ```csharp
-var validFormats = new[] { "text", "json" };
-if (!validFormats.Contains(settings.Format, StringComparer.OrdinalIgnoreCase))
+public static class OptionValidation
 {
-    errorConsole.MarkupLine($"[red]Error:[/] Unknown format '{Markup.Escape(settings.Format)}'. Valid formats: {string.Join(", ", validFormats)}");
-    return ExitCodes.InvalidInput; // 2
+    private static readonly string[] ValidFormats = { "text", "json" };
+
+    public static bool TryValidateFormat(string value, out string? errorMessage)
+    {
+        if (ValidFormats.Any(f => f.Equals(value, StringComparison.OrdinalIgnoreCase)))
+        {
+            errorMessage = null;
+            return true;
+        }
+
+        errorMessage = $"Unknown format '{value}'. Valid formats: {string.Join(", ", ValidFormats)}";
+        return false;
+    }
 }
 ```
 
-### Alternative: Spectre TypeConverter
-
-Use a custom `TypeConverter` on the `Format` property to restrict valid values at the parsing level. This would produce an error before `Execute` is even called, but gives less control over the error message format.
+This is implementation guidance, not a mandatory architecture — the key requirement is that every command with `--format` validates before execution and produces a consistent error. A shared helper is the recommended approach to avoid divergence.
 
 ### Error Message Format
 
@@ -84,7 +98,22 @@ Use a custom `TypeConverter` on the `Format` property to restrict valid values a
 Error: Unknown format 'xml'. Valid formats: text, json
 ```
 
-Written to stderr. Exit code 2 (InvalidInput).
+Written to stderr via the error console defined in RFC-0002. Exit code 2 (`ExitCodes.InvalidInput`).
+
+### Commands Affected
+
+| Command | Has `--format` | Validation needed |
+|---------|---------------|-------------------|
+| `compare` | Yes | Yes — validate before `ExecuteCompare` |
+| `report` | No (delegates to compare with `"text"`) | No — hardcoded valid value |
+| `export` | No (delegates to compare with `"json"`) | No — hardcoded valid value |
+| `suggest` | Yes | Yes — validate before suggestion execution |
+| `validate` | Yes (added by RFC-0002) | Yes — validate before model validation |
+| `init` | No | No |
+
+### Relationship to RFC-0002
+
+This RFC depends on RFC-0002's stderr contract for error output. The validation policy itself is valid independently — invalid input should be rejected regardless of which channel carries the error — but the specific mechanism (writing to stderr via `ErrorConsole.Stderr`) follows the contract defined in RFC-0002.
 
 ---
 
@@ -104,7 +133,7 @@ Written to stderr. Exit code 2 (InvalidInput).
 
 **Strengths:** Compile-time safety, automatic validation, no custom code needed.
 
-**Why not selected:** This is actually a strong implementation option and could be recommended. The trade-off is that Spectre's enum error messages are generic ("Could not convert...") rather than user-friendly. Could be combined with a custom TypeConverter for better messages.
+**Why not selected:** Spectre's enum error messages are generic ("Could not convert...") rather than user-friendly. For v1, prefer string + explicit validation so the CLI keeps full control over the user-facing error message. Enum conversion can be reconsidered in a future release if the custom messages prove unnecessary.
 
 ---
 
@@ -113,25 +142,37 @@ Written to stderr. Exit code 2 (InvalidInput).
 | Gain | Cost |
 |------|------|
 | Invalid input is caught immediately | Existing scripts passing invalid values will now fail (intentionally) |
-| Users get clear feedback on what went wrong | Small validation code to add and maintain |
+| Users get clear feedback on what went wrong | Small validation helper to maintain |
 | Deterministic behavior — output format always matches the request | None significant |
+| Shared helper prevents validation divergence across commands | Minor indirection |
 
 ---
 
 ## Testing / Validation Strategy
 
-- **Unit tests:** Verify that `--format xml`, `--format yaml`, `--format ""`, and `--format JSON` (case test) produce appropriate behavior (error for invalid, success for valid regardless of case)
-- **Unit tests:** Verify exit code 2 for invalid format values
-- **Unit tests:** Verify error message contains the invalid value and lists valid values
+- **Unit tests:** Verify that `--format xml`, `--format yaml`, `--format ""` produce exit code 2 with an error message naming the invalid value and listing valid values
+- **Unit tests:** Verify that `--format JSON`, `--format Json`, `--format json` are all accepted (case-insensitive)
+- **Unit tests:** Verify error message goes to stderr and stdout is empty for invalid format
 - **Integration test:** Run `ars compare --format xml --model valid.json` and verify stderr contains error, stdout is empty, exit code is 2
 
 ---
 
-## Open Questions
+## Open Questions (Resolved)
 
-- [ ] Should format validation be case-insensitive (accept `JSON`, `Json`, `json`)?
-- [ ] Should the format validation be implemented as a shared helper (for reuse by `suggest --format`) or inline in each command?
-- [ ] Is the enum approach (Alternative 2) preferred over string validation for type safety?
+- [x] **Should format validation be case-insensitive?** Yes. Accept `JSON`, `Json`, `json`, etc.
+- [x] **Should validation be a shared helper or inline?** Shared helper recommended to prevent divergence across commands. This is implementation guidance, not mandatory architecture.
+- [x] **Is the enum approach preferred for type safety?** No, not for v1. Prefer string + explicit validation for full control over error messages. Enum conversion can be reconsidered later.
+
+---
+
+## Decision Outcome / Next Steps
+
+This RFC is accepted. Implementation should:
+
+1. Add a format validation helper (recommended: `OptionValidation.TryValidateFormat`)
+2. Call the validation at the start of `CompareCommand.ExecuteCompare`, `SuggestCommand.Execute`, and `ValidateCommand.Execute`
+3. On failure: write error to stderr via `ErrorConsole.Stderr`, return `ExitCodes.InvalidInput`
+4. Accept format values case-insensitively
 
 ---
 
@@ -139,7 +180,9 @@ Written to stderr. Exit code 2 (InvalidInput).
 
 | Document | Relationship |
 |----------|-------------|
-| [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-advanced-repo-spine-v1.md) | Deterministic output requirements |
+| [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-advanced-repo-spine-v1.md) | Deterministic output requirements (§20.1) |
 | [RFC-0001 — CLI Architecture](RFC-0001-cli-architecture.md) | Command settings and format flag design |
+| [RFC-0002 — Output/Error Contract](RFC-0002-output-error-contract.md) | Defines stderr contract used for error messages |
+| [RFC-0003 — CLI Ergonomics](RFC-0003-cli-ergonomics.md) | Defines help text that enumerates valid values; complements this RFC's enforcement |
 | [ADR-0006 — Comparison Semantics](../adr/ADR-0006-comparison-semantics.md) | Deterministic output ordering contract |
 | [ADR-0007 — Report/Export Aliases](../adr/ADR-0007-report-export-aliases.md) | Defines `--format` valid values; amended to require strict validation |

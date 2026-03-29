@@ -154,6 +154,8 @@ Before moving to the ADR phase, the RFC must pass:
 
 `Draft` → `Proposed` → `Accepted` | `Rejected` | `Withdrawn`
 
+An RFC may also be classified as `Exploratory` if it captures forward-looking design-space analysis rather than a concrete implementation proposal. Exploratory RFCs are not approved for implementation — future concrete work must come through separate focused RFCs.
+
 ### Who
 
 - **Human:** Provides technical context, evaluates alternatives, makes judgment calls on trade-offs

@@ -10,7 +10,8 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | Draft / In Review / Accepted / Rejected / Superseded |
+| **Status** | Draft / In Review / Accepted / Rejected / Superseded / Exploratory |
+| **Target Release** | [e.g., v1, v1.x, post-v1, or n/a] |
 | **Owner(s)** | [Name(s)] |
 | **Reviewers** | [Names or teams expected to review] |
 | **Date** | YYYY-MM-DD |

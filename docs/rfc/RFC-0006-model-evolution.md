@@ -1,8 +1,9 @@
-# RFC-0006 — Model Evolution Strategy (Post-v1)
+# RFC-0006 — Model Evolution: Design Space Exploration
 
 | Field | Value |
 |-------|-------|
-| **Status** | Draft |
+| **Status** | Exploratory |
+| **Target Release** | post-v1 |
 | **Owner(s)** | — |
 | **Reviewers** | — |
 | **Date** | 2026-03-29 |
@@ -13,7 +14,7 @@
 
 ## Summary
 
-This RFC outlines the considerations for evolving the ARS model schema beyond v1, covering two topics: schema versioning and migration tooling, and the potential addition of glob/pattern support in model items. These are post-v1 concerns, but capturing the design space now ensures that v1 decisions do not inadvertently block future evolution. Neither feature is proposed for immediate implementation — this RFC establishes the problem space and design options for future prioritization.
+This RFC is an exploratory design-space document, not an approved implementation design. It captures considerations for two post-v1 evolution areas: (1) schema versioning and migration tooling, and (2) glob/pattern support in model items. Neither feature is proposed for implementation — this RFC establishes the problem space, design options, and trade-offs so future concrete RFCs can build on this analysis. Any future implementation must come through separate, focused, implementation-ready RFCs.
 
 ---
 
@@ -31,49 +32,35 @@ PRD-0001 §23 acknowledges YAML support, enhanced validation, and advanced match
 
 ---
 
-## Problem Statement
+## Status and Scope
 
-1. **No migration path:** When the model schema changes between ARS versions, there is no tooling to detect the version mismatch, explain what changed, or transform the model. Users face opaque validation errors.
+**This RFC is exploratory.** It is:
 
-2. **Model verbosity:** Explicit paths require listing every modeled file individually. For repositories with hundreds of source files in a consistent structure, this is impractical. Pattern support would allow compact declarations like `src/**/*.cs` to cover many files at once.
+- A forward-looking design-space analysis for post-v1 topics
+- A reference document for future design work
+- A landscape survey of options, trade-offs, and open questions
 
----
+It is **not**:
 
-## Goals
+- An approved implementation design
+- A commitment to any specific approach
+- Something blocking v1 or near-term work
 
-- G-1: Define the design space for model schema versioning and migration
-- G-2: Define the design space for glob/pattern support in model items
-- G-3: Ensure v1 schema and comparison semantics do not create unnecessary barriers to these future features
-- G-4: Capture the trade-offs so future ADRs can record decisions with full context
-
-## Non-Goals
-
-- Implementing migration tooling in v1
-- Implementing glob support in v1
-- Defining the v2 model schema
-- Adding YAML support (separate concern, addressed by ADR-0003)
+**Any future concrete implementation work on schema versioning or pattern support must come through separate focused RFCs** that propose specific designs, define testing strategies, and can be reviewed with implementation-readiness criteria.
 
 ---
 
-## Requirements
+## Topic 1: Schema Versioning and Migration
 
-| ID | Requirement | Priority | Source |
-|----|-------------|----------|--------|
-| R-1 | A future migration tool should be able to detect model schema version from the `version` field | Should | Forward compatibility |
-| R-2 | Schema changes should be documented in a version changelog or migration guide | Should | Usability |
-| R-3 | Pattern support, if added, must not break existing explicit-path models | Must | Backward compatibility |
-| R-4 | Pattern support must define clear semantics for how patterns interact with the comparison engine | Must | ADR-0006 alignment |
-| R-5 | The v1 `version` field format must not need to change to accommodate future versioning | Should | Forward compatibility |
+### Problem
 
----
+When the model schema changes between ARS versions, there is no tooling to detect the version mismatch, explain what changed, or transform the model. Users face opaque validation errors.
 
-## Proposed Design
+### Version Field Semantics
 
-### Topic 1: Schema Versioning and Migration
+The v1 model uses `"version": "1.0"` as a string. Future versions increment this (e.g., `"1.1"`, `"2.0"`). Semantic versioning rules: minor versions add backward-compatible fields; major versions may remove or restructure fields.
 
-**Version field semantics:** The v1 model uses `"version": "1.0"` as a string. Future versions increment this (e.g., `"1.1"`, `"2.0"`). Semantic versioning rules: minor versions add backward-compatible fields; major versions may remove or restructure fields.
-
-**Migration tooling options:**
+### Migration Tooling Options
 
 | Approach | Description | Pros | Cons |
 |----------|-------------|------|------|
@@ -81,9 +68,28 @@ PRD-0001 §23 acknowledges YAML support, enhanced validation, and advanced match
 | `ars validate --upgrade` flag | Validation reports version mismatches and suggests transformations | Reuses existing command | Overloads validate's purpose |
 | External migration scripts | Provide JSON transformation scripts or documentation per version bump | No code changes to ARS | Manual effort for users, error-prone |
 
-**Model diff considerations:** A diff between two model files (e.g., before and after a schema change) could show added/removed/changed items. This is conceptually similar to the existing comparison engine but operates on two models rather than a model and a filesystem.
+### Model Diff Considerations
 
-### Topic 2: Glob/Pattern Support
+A diff between two model files (e.g., before and after a schema change) could show added/removed/changed items. This is conceptually similar to the existing comparison engine but operates on two models rather than a model and a filesystem.
+
+### Future RFC Direction
+
+A concrete schema-versioning RFC should:
+
+- Define the specific migration path (command, flag, or external script)
+- Resolve the read-only tension for `ars migrate`
+- Define what schema changes are backward-compatible vs. breaking
+- Specify migration test strategy
+
+---
+
+## Topic 2: Glob/Pattern Support
+
+### Problem
+
+Explicit paths require listing every modeled file individually. For repositories with hundreds of source files in a consistent structure, this is impractical. Pattern support would allow compact declarations like `src/**/*.cs` to cover many files at once.
+
+### Possible Pattern Item
 
 **Current model item:**
 ```json
@@ -95,7 +101,7 @@ PRD-0001 §23 acknowledges YAML support, enhanced validation, and advanced match
 { "name": "source-files", "type": "pattern", "path": "src/**/*.cs", "description": "All C# source files" }
 ```
 
-**Key design questions:**
+### Key Design Questions
 
 1. **Matching semantics:** Does a pattern item count as "matched" when at least one file matches? When all expected files match? How are "extra" files (matching the pattern but not representing anything unexpected) handled?
 
@@ -105,7 +111,21 @@ PRD-0001 §23 acknowledges YAML support, enhanced validation, and advanced match
 
 4. **Model complexity:** Patterns can overlap, creating ambiguous ownership. Two patterns like `src/**/*.cs` and `src/Services/**/*` could both claim the same file.
 
-**Recommendation:** Pattern support requires a new ADR for comparison semantics (potentially amending ADR-0006) and careful design of the finding model. It should not be retrofitted into the explicit-match engine — it is a distinct matching mode.
+5. **Pattern syntax:** Glob syntax, regex, or a custom DSL? Glob is most familiar for filesystem operations.
+
+### Recommendation
+
+Pattern support requires a new ADR for comparison semantics (potentially amending ADR-0006) and careful design of the finding model. It should not be retrofitted into the explicit-match engine — it is a distinct matching mode.
+
+### Future RFC Direction
+
+A concrete pattern-support RFC should:
+
+- Define the pattern syntax precisely
+- Define matching semantics for each finding type
+- Define interaction rules between explicit and pattern items
+- Define overlap resolution
+- Propose ADR amendments to ADR-0005 and ADR-0006
 
 ---
 
@@ -117,7 +137,7 @@ PRD-0001 §23 acknowledges YAML support, enhanced validation, and advanced match
 
 **Strengths:** Maximum stability. No migration tooling needed.
 
-**Why not selected:** Impractical for a tool expected to evolve. Extension fields become a secondary schema that replicates the problem.
+**Why not a likely direction:** Impractical for a tool expected to evolve. Extension fields become a secondary schema that replicates the problem.
 
 ### Alternative 2: Auto-migrate on load
 
@@ -125,7 +145,7 @@ PRD-0001 §23 acknowledges YAML support, enhanced validation, and advanced match
 
 **Strengths:** Seamless user experience.
 
-**Why not selected:** Silent mutation of semantics is dangerous — the user's model file stays at the old version while the tool interprets it differently. Explicit migration with user confirmation is safer.
+**Why not a likely direction:** Silent mutation of semantics is dangerous — the user's model file stays at the old version while the tool interprets it differently. Explicit migration with user confirmation is safer.
 
 ---
 
@@ -139,15 +159,20 @@ PRD-0001 §23 acknowledges YAML support, enhanced validation, and advanced match
 
 ---
 
-## Testing / Validation Strategy
+## v1 Compatibility Notes
 
-- **Schema versioning:** Test that the validator rejects models with unsupported version values and provides a clear error message
-- **Migration (when implemented):** Test round-trip migration: v1.0 model → migrate → v1.1 model → validate passes; original model preserved
-- **Pattern matching (when implemented):** Test explicit-path and pattern-path interactions; test overlapping patterns; test empty-match patterns; test that existing explicit-path models are unaffected
+The v1 schema design does not create unnecessary barriers to these future features:
+
+- The `version` field is already in place and can support future versioning
+- The `type` field on model items can be extended with new values (e.g., `"pattern"`)
+- System.Text.Json's `JsonExtensionData` or lenient deserialization can handle unknown fields from future schema versions
+- The comparison engine's clear input contract (model + scan result → findings) supports adding new matching modes without restructuring
 
 ---
 
 ## Open Questions
+
+These questions are intentionally left open for future concrete RFCs to resolve:
 
 - [ ] Should the `version` field use semver strings (`"1.0.0"`) or simple major.minor (`"1.0"`)? Current v1 uses `"1.0"`.
 - [ ] Should migration be a separate command (`ars migrate`) or integrated into `validate` with a flag?
