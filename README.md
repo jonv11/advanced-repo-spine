@@ -49,6 +49,19 @@ The CLI is functional with 7 commands. See [PRD-0001](docs/prd/PRD-0001-advanced
 | Serialization | JSON (`System.Text.Json`) |
 | Platforms | Windows, Linux, macOS |
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to get started. Development conventions are documented in [`docs/development/`](docs/development/):
+
+- [Branching and commits](docs/development/branching-and-commits.md)
+- [Versioning policy](docs/development/versioning-policy.md)
+- [Release process](docs/development/release-process.md)
+- [GitHub workflow](docs/development/github-workflow.md)
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for version history.
+
 ## License
 
-TBD
+TBD — license will be selected before first public release.

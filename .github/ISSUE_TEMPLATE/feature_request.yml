@@ -1,0 +1,49 @@
+name: Feature Request
+description: Suggest a new feature or enhancement for ARS
+labels: ["feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting a feature. Before submitting, please check whether a related [PRD](../docs/prd/) or [RFC](../docs/rfc/) already exists.
+
+        For substantial features, the project follows a **PRD → RFC → ADR** documentation pipeline. Your feature request may be developed into a PRD if accepted.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What problem does this feature solve? Why is the current behavior insufficient?
+      placeholder: I frequently need to ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: Describe the solution you would like to see.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Describe any alternative solutions or workarounds you have considered.
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      description: How large is this change?
+      options:
+        - Small — minor CLI improvement or option
+        - Medium — new behavior or significant change to existing command
+        - Large — new command, new model capability, or architectural change
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Any other context, examples, or references.
