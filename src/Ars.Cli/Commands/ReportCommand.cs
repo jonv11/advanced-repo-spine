@@ -18,7 +18,7 @@ public sealed class ReportSettings : CommandSettings
 
 public sealed class ReportCommand : Command<ReportSettings>
 {
-    public override int Execute(CommandContext context, ReportSettings settings)
+    public override int Execute(CommandContext context, ReportSettings settings, CancellationToken cancellationToken)
     {
         return CompareCommand.ExecuteCompare(settings.Model, settings.Root, "text");
     }

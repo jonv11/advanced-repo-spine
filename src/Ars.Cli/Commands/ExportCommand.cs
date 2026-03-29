@@ -18,7 +18,7 @@ public sealed class ExportSettings : CommandSettings
 
 public sealed class ExportCommand : Command<ExportSettings>
 {
-    public override int Execute(CommandContext context, ExportSettings settings)
+    public override int Execute(CommandContext context, ExportSettings settings, CancellationToken cancellationToken)
     {
         return CompareCommand.ExecuteCompare(settings.Model, settings.Root, "json");
     }

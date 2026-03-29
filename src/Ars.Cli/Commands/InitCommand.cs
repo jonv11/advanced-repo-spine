@@ -28,7 +28,7 @@ public sealed class InitCommand : Command<InitSettings>
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
     };
 
-    public override int Execute(CommandContext context, InitSettings settings)
+    public override int Execute(CommandContext context, InitSettings settings, CancellationToken cancellationToken)
     {
         var fullPath = System.IO.Path.GetFullPath(settings.Path);
 

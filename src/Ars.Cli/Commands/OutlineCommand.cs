@@ -28,7 +28,7 @@ public sealed class OutlineSettings : CommandSettings
 
 public sealed class OutlineCommand : Command<OutlineSettings>
 {
-    public override int Execute(CommandContext context, OutlineSettings settings)
+    public override int Execute(CommandContext context, OutlineSettings settings, CancellationToken cancellationToken)
     {
         if (!OptionValidation.TryValidateFormat(settings.Format, out var formatError))
         {
