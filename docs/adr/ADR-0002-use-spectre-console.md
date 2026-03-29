@@ -6,7 +6,7 @@
 | **Date** | 2026-03-28 |
 | **Owner(s) / Deciders** | — |
 | **Related RFC** | [RFC-0001 — CLI Architecture](../rfc/RFC-0001-cli-architecture.md) |
-| **Related Links** | [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-ars-v1.md) |
+| **Related Links** | [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-advanced-repo-spine-v1.md) |
 
 ---
 
@@ -17,6 +17,8 @@ Use Spectre.Console for terminal rendering and Spectre.Console.Cli for command p
 ## Context
 
 Advanced Repo Spine needs a CLI framework that handles command parsing (six commands with varying arguments and options) and produces formatted terminal output (tables, colored text, grouped sections). The PRD mandates Spectre.Console + Spectre.Console.Cli (§13.2). The tool must produce output that is readable in CI logs as well as interactive terminals.
+
+Spectre.Console’s markup system interprets `[...]` as style/color tags. Any dynamic content rendered via `MarkupLine` or similar methods must either escape square brackets (`[[` / `]]`) or be output through non-markup methods (e.g., `AnsiConsole.WriteLine`). Failure to do so causes framework exceptions when the dynamic value resembles a tag name (e.g., an error location like `version` or a path containing brackets).
 
 ## Options Considered
 
@@ -84,13 +86,12 @@ System.CommandLine was rejected due to its long-running beta status and lack of 
 ### Negative
 
 - External NuGet dependency that must be kept updated
-- Output formatting is coupled to Spectre's rendering model — switching frameworks later would require rewriting reporters
-- Snapshot testing for console output is more brittle than structured assertions
+- Output formatting is coupled to Spectre's rendering model — switching frameworks later would require rewriting reporters- Dynamic string values (error locations, user-supplied paths) must be bracket-escaped or rendered through non-markup APIs to prevent Spectre’s tag parser from throwing on content that resembles a color or style name- Snapshot testing for console output is more brittle than structured assertions
 
 ## Related Documents
 
 | Document | Relationship |
 |----------|-------------|
-| [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-ars-v1.md) | Defines the CLI framework constraint (§13.2) |
+| [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-advanced-repo-spine-v1.md) | Defines the CLI framework constraint (§13.2) |
 | [RFC-0001 — CLI Architecture](../rfc/RFC-0001-cli-architecture.md) | Uses Spectre.Console.Cli for command routing |
 | [ADR-0001 — Use .NET for CLI](ADR-0001-use-dotnet-for-cli.md) | Runtime prerequisite for Spectre.Console |

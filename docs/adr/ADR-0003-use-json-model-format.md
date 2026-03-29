@@ -6,7 +6,7 @@
 | **Date** | 2026-03-28 |
 | **Owner(s) / Deciders** | — |
 | **Related RFC** | [RFC-0001 — CLI Architecture](../rfc/RFC-0001-cli-architecture.md) |
-| **Related Links** | [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-ars-v1.md) |
+| **Related Links** | [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-advanced-repo-spine-v1.md) |
 
 ---
 
@@ -99,6 +99,6 @@ YAML support remains a strong v2 candidate (PRD §23) once the model schema is p
 
 | Document | Relationship |
 |----------|-------------|
-| [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-ars-v1.md) | YAML excluded in §6; trade-off discussed in §22.1 |
+| [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-advanced-repo-spine-v1.md) | YAML excluded in §6; trade-off discussed in §22.1 |
 | [RFC-0001 — CLI Architecture](../rfc/RFC-0001-cli-architecture.md) | Model layer design assumes JSON-only |
 | [ADR-0005 — v1 Model Schema](ADR-0005-v1-model-schema.md) | Defines the JSON schema structure |

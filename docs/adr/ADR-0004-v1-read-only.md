@@ -6,7 +6,7 @@
 | **Date** | 2026-03-28 |
 | **Owner(s) / Deciders** | — |
 | **Related RFC** | [RFC-0001 — CLI Architecture](../rfc/RFC-0001-cli-architecture.md) |
-| **Related Links** | [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-ars-v1.md) |
+| **Related Links** | [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-advanced-repo-spine-v1.md) |
 
 ---
 
@@ -93,5 +93,5 @@ Auto-fix is a strong candidate for v2 once the comparison engine is proven accur
 
 | Document | Relationship |
 |----------|-------------|
-| [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-ars-v1.md) | Mutation excluded in §6; safety in §20.2; over-scoping risk in §22.3 |
+| [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-advanced-repo-spine-v1.md) | Mutation excluded in §6; safety in §20.2; over-scoping risk in §22.3 |
 | [RFC-0001 — CLI Architecture](../rfc/RFC-0001-cli-architecture.md) | Architecture assumes read-only invariant |

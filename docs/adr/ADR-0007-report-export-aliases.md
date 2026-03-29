@@ -88,6 +88,8 @@ Removing `report` and `export` was rejected because it would break the PRD contr
 
 Implementation in Spectre.Console.Cli: both `report` and `export` are registered as separate commands that internally delegate to `CompareCommand` with preset format values. This is a lightweight wrapper — no subclassing or complex routing required.
 
+Deterministic and predictable behavior requires that the `--format` option reject unsupported values with a clear error and non-zero exit code (exit 2) rather than silently defaulting. Valid values are `text` and `json`; any other value is an input error. This fail-fast contract prevents scripts and CI pipelines from receiving unexpected output formats without warning.
+
 ## Consequences
 
 ### Positive
@@ -102,6 +104,7 @@ Implementation in Spectre.Console.Cli: both `report` and `export` are registered
 - `ars --help` shows three commands that do the same thing — must include clear descriptions indicating the alias relationship
 - Users may not discover the `--format` flag if they only know `report` or `export`
 - Spectre.Console.Cli requires registering aliases as separate commands — minor implementation overhead
+- The `--format` option must validate its value and reject unsupported formats with exit code 2 and a message listing valid values, rather than silently coercing to a default
 
 ## Related Documents
 

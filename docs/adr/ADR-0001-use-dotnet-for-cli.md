@@ -6,7 +6,7 @@
 | **Date** | 2026-03-28 |
 | **Owner(s) / Deciders** | — |
 | **Related RFC** | [RFC-0001 — CLI Architecture](../rfc/RFC-0001-cli-architecture.md) |
-| **Related Links** | [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-ars-v1.md) |
+| **Related Links** | [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-advanced-repo-spine-v1.md) |
 
 ---
 
@@ -99,6 +99,6 @@ Go and Rust produce smaller, faster binaries but offer less expressive type syst
 
 | Document | Relationship |
 |----------|-------------|
-| [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-ars-v1.md) | Defines the runtime constraint (§13.1) |
+| [PRD-0001 — Advanced Repo Spine v1](../prd/PRD-0001-advanced-repo-spine-v1.md) | Defines the runtime constraint (§13.1) |
 | [RFC-0001 — CLI Architecture](../rfc/RFC-0001-cli-architecture.md) | Design built on this runtime choice |
 | [ADR-0002 — Use Spectre.Console](ADR-0002-use-spectre-console.md) | CLI framework choice dependent on .NET |

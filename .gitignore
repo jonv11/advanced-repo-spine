@@ -37,6 +37,7 @@ msbuild.wrn
 [Bb]uild[Ll]og.*
 TestResult.xml
 coverage/
+.black-box-testing/
 
 # Misc
 *.tmp
