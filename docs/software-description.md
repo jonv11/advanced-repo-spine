@@ -1,35 +1,67 @@
-# Software description
-
-This software is a repository-structure intelligence and guidance tool designed primarily for software contributors and AI coding agents. Its purpose is to make the intent, organization, and expected shape of a repository explicit, discoverable, and machine-usable. Instead of treating a repository as just a loose set of folders and files, the tool models it as a structured system with meaning: what belongs where, why it exists, how artifacts relate to each other, and how contributors should navigate and extend it consistently.
-
-At its core, the software loads one or more repository structure models, merges them into a single effective view, and compares that view against an actual working directory. From that, it can explain the repository layout, highlight gaps, detect mismatches, surface undocumented areas, and help contributors understand where new code, documents, decisions, proposals, or operational artifacts should go. The goal is not only validation, but guidance: helping humans and agents quickly answer questions such as “where should this file live?”, “what is this folder for?”, “what artifact is missing?”, or “does this repository still match its intended structure?”
-
-The tool is especially valuable in repositories that contain more than source code. It supports the idea that architecture notes, ADRs, proposals, requirements, specs, runbooks, reference material, and contributor guidance are all part of the repository spine and should be treated as first-class structural elements. In that sense, it acts as both a structure model interpreter and a contributor-facing navigation system.
-
-A key differentiator is that the software is intended to be AI-friendly from the start. It is not only a CLI for humans, but also a deterministic interface that coding agents can use to inspect repository intent, discover conventions, and make better placement decisions with less guesswork. Rather than forcing agents to infer everything from scattered files, the tool gives them a clearer structural map of the project. This reduces drift, improves consistency, and makes repository evolution more intentional.
-
-The product also fits well into early-stage and evolving repositories. A team can start with a simple model, refine it over time, and use the tool to keep structure aligned with reality. In mature projects, it becomes a lightweight governance layer for repository hygiene and discoverability. In greenfield projects, it helps define the backbone before the codebase becomes chaotic.
-
-In one sentence, this software is a structured, machine-readable backbone for understanding, validating, and guiding the shape of a repository.
-
-## Pitch line
-
-A strong pitch line would be:
-
-**Make repository structure explicit, navigable, and agent-friendly.**
-
-If you want something a bit more product-like, use:
+# Software Description
 
 **The structural backbone for repositories built by humans and AI.**
 
-If you want something more practical and less marketing-like, use:
+## What ARS Is
 
-**A CLI that explains, validates, and guides repository structure.**
+Advanced Repo Spine (ARS) is a repository intelligence and guidance tool. It makes the intent, structure, and guidance embedded in a repository explicit, discoverable, and machine-usable — for both human contributors and AI coding agents.
 
-If you want something that emphasizes your “spine” idea more directly, use:
+ARS treats a repository as more than a collection of folders and files. It models the repository as a structured system with meaning: what belongs where, why it exists, how artifacts relate, and how the repository should be navigated and extended. The result is a deterministic, inspectable backbone that turns implicit conventions into explicit, queryable knowledge.
 
-**Give your repository a spine.**
+## Why It Exists
 
-My recommendation for the most balanced version is:
+Most repositories contain architecture notes, decision records, proposals, requirements, runbooks, guides, and other documentation alongside source code. These artifacts are important, but they are rarely modeled, validated, or surfaced as part of the repository's structural identity.
 
-**The structural backbone for repositories built by humans and AI.**
+Without an explicit structural model:
+
+- Contributors and agents must infer conventions from scattered files.
+- Important documents are hard to find and easy to overlook.
+- Structure drifts from intent as the repository evolves.
+- Onboarding requires manual spelunking instead of guided navigation.
+- There is no reliable way to determine what is authoritative, what is stale, or what is missing.
+
+ARS exists to close this gap. It provides a structured, machine-readable representation of repository intent that supports grounding, navigation, validation, and guidance.
+
+## Who It Is For
+
+- **Human contributors** who need to understand, navigate, or extend a repository confidently — especially in documentation-heavy or decision-driven projects.
+- **AI coding agents** that need deterministic, compact context about repository shape, conventions, and source-of-truth artifacts before planning or implementing work.
+- **Teams** that want lightweight structural governance without heavy process overhead.
+
+## What Makes It Different
+
+**Repository structure as a first-class design artifact.** ARS does not just scan code or lint files. It models the intended shape of an entire repository — including documentation, decisions, and operational artifacts — and makes that model inspectable and actionable.
+
+**Dual-audience from the start.** ARS is designed equally for humans and AI agents. Its deterministic, machine-readable output serves as a grounding layer for coding agents, while its human-readable reports support contributors directly. This is not a human tool with an agent API bolted on.
+
+**Documentation as infrastructure.** ARS treats architecture notes, ADRs, RFCs, PRDs, guides, and other documentation as first-class structural elements of the repository spine — not as secondary content that lives outside the structural model.
+
+**Source-of-truth-aware navigation.** Beyond validating structure, ARS is designed for workflows where contributors and agents need to discover authoritative artifacts, understand what to read first, and build task-oriented context before acting.
+
+## What It Does — At a Glance
+
+ARS uses a declarative JSON model to describe the intended structure of a repository. From that model, it can:
+
+- Explain the repository layout and the purpose of each structural element.
+- Compare the actual repository against the model, surfacing gaps, mismatches, and undocumented areas.
+- Suggest where new files and folders should live.
+- Surface the internal structure of documentation (heading outlines within Markdown files).
+- Export results as machine-readable JSON for automation and agent consumption.
+
+The goal is not only validation. It is guidance: helping humans and agents answer questions like "where should this go?", "what is this folder for?", "what documentation exists for this topic?", and "does reality still match intent?"
+
+## Where It Fits
+
+ARS fits naturally into repositories that are documentation-driven, decision-rich, or structurally intentional — but it is useful at any stage:
+
+- **Greenfield projects:** Define the backbone before the codebase becomes chaotic.
+- **Growing repositories:** Keep structure aligned with intent as the project evolves.
+- **Mature projects:** Lightweight governance for repository hygiene, discoverability, and onboarding.
+- **Agent-assisted workflows:** Provide a grounding layer that agents can load before planning, implementing, or reviewing work.
+
+## Further Reading
+
+- [Target Workflows](product/target-workflows.md) — the real-world workflows ARS is designed to support.
+- [Capabilities](product/capabilities.md) — the capability families that enable those workflows.
+- [PRD-0001](prd/PRD-0001-advanced-repo-spine-v1.md) — v1 product requirements.
+- [PRD-0002](prd/PRD-0002-repository-documentation-outline-view.md) — documentation outline capability.

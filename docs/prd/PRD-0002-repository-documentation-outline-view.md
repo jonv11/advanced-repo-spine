@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | Draft |
+| **Status** | Approved |
 | **Owner(s)** | — |
 | **Date** | 2026-03-29 |
 | **Stakeholders** | ARS maintainers, repository contributors, AI coding agent users, technical leads, CI/tooling consumers |
@@ -197,3 +197,7 @@ If early implementation reveals that parser fidelity, output volume, or scanner 
 | [PRD-0001 — Advanced Repo Spine v1](PRD-0001-advanced-repo-spine-v1.md) | Product baseline that defines ARS's v1 mission, current command categories, and deterministic CLI-first direction. |
 | [RFC-0001 — CLI Architecture](../rfc/RFC-0001-cli-architecture.md) | Describes the current accepted CLI surface and architectural boundaries that this new command should extend rather than redefine. |
 | [RFC-0003 — CLI Ergonomics and Discoverability Baseline](../rfc/RFC-0003-cli-ergonomics.md) | Establishes expectations for command discoverability, option descriptions, accepted values, and help output quality. |
+| [RFC-0007 — `ars outline` Command Design](../rfc/RFC-0007-ars-outline-command-design.md) | Follow-on RFC specifying command behavior, output shapes, traversal algorithm, and parser/renderer design. |
+| [ADR-0009 — Add `ars outline` to the ARS Command Surface](../adr/ADR-0009-add-ars-outline-command.md) | Records the decision to add `ars outline` as a new first-class discovery command. |
+| [ADR-0010 — ATX Headings Only in v1](../adr/ADR-0010-atx-headings-only-extraction.md) | Records the decision to scope heading extraction to ATX (`#`-prefix) headings only. |
+| [ADR-0011 — Flat Heading List Under File Nodes](../adr/ADR-0011-flat-heading-list-under-file-nodes.md) | Records the output contract: flat ordered heading children under file nodes with an explicit `level` field. |
