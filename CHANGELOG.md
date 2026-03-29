@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## [Unreleased]
 
+### Added
+
+- GitHub Actions release asset workflow that publishes packaged binaries for Windows, Linux, and macOS and uploads them to GitHub Releases with SHA-256 checksums
+
 ## [1.0.0] — 2026-03-29
 
 ### Added

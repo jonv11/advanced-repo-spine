@@ -73,6 +73,7 @@ git push origin vX.Y.Z
 - Create a new release from the `vX.Y.Z` tag
 - Use the CHANGELOG entry as the release description
 - Mark as pre-release if using `-alpha`, `-beta`, or `-rc` suffix
+- Publishing the release triggers the `Release Assets` workflow, which builds packaged binaries for Windows, Linux, and macOS and uploads them as release assets together with `SHA256SUMS.txt`
 
 ## Version selection guidance
 
@@ -88,6 +89,7 @@ Refer to the [versioning policy](versioning-policy.md) for detailed rules. In su
 
 - Verify the GitHub Release is visible and correctly tagged
 - Check that the release notes are accurate
+- Verify that release assets are present for Windows, Linux, and macOS and that `SHA256SUMS.txt` was uploaded
 - If applicable, announce the release in relevant channels
 
 ---
@@ -113,7 +115,6 @@ These steps become relevant only after the GitHub repository exists:
 | Item | When to implement |
 |------|-------------------|
 | GitHub Release creation from tags | After first push to GitHub |
-| Release automation workflow (tag → build → publish) | After release process is proven manually |
 | NuGet package publication | After packaging decisions are finalized |
 | GitHub Pages documentation hosting | After documentation publishing strategy is decided |
 | Automated changelog generation from commits | After Conventional Commits are established in practice |

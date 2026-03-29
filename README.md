@@ -38,6 +38,16 @@ See [`docs/README.md`](docs/README.md) for the full documentation landing page, 
 - [Templates](docs/templates/) — PRD, RFC, ADR scaffolds
 - [Interactive Prompts](docs/prompts/) — AI-assisted document creation
 
+## Downloads
+
+Prebuilt binaries for supported release targets are attached to GitHub Releases:
+
+- Windows (`win-x64`)
+- Linux (`linux-x64`)
+- macOS (`osx-arm64`)
+
+See the [latest release](https://github.com/jonv11/advanced-repo-spine/releases/latest) for packaged downloads and `SHA256SUMS.txt`.
+
 ## Project Status
 
 **Current release:** `v1.0.0`
