@@ -60,7 +60,8 @@ public sealed class VersionCommandTests : IDisposable
             "-c",
             "Release",
             "-nologo",
-            "-p:UseSharedCompilation=false"
+            "-p:UseSharedCompilation=false",
+            "-p:UseAppHost=false"
         };
 
         if (sourceRevisionId is not null)
