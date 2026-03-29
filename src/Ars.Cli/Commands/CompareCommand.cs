@@ -29,7 +29,7 @@ public sealed class CompareSettings : CommandSettings
 
 public sealed class CompareCommand : Command<CompareSettings>
 {
-    public override int Execute(CommandContext context, CompareSettings settings)
+    public override int Execute(CommandContext context, CompareSettings settings, CancellationToken cancellationToken)
     {
         return ExecuteCompare(settings.Model, settings.Root, settings.Format);
     }

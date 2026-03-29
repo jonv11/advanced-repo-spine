@@ -30,7 +30,7 @@ public sealed class ValidateCommand : Command<ValidateSettings>
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
 
-    public override int Execute(CommandContext context, ValidateSettings settings)
+    public override int Execute(CommandContext context, ValidateSettings settings, CancellationToken cancellationToken)
     {
         bool isJson = settings.Format.Equals("json", StringComparison.OrdinalIgnoreCase);
 

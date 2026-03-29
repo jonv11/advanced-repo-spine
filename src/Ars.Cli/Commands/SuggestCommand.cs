@@ -35,7 +35,7 @@ public sealed class SuggestCommand : Command<SuggestSettings>
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
 
-    public override int Execute(CommandContext context, SuggestSettings settings)
+    public override int Execute(CommandContext context, SuggestSettings settings, CancellationToken cancellationToken)
     {
         if (!OptionValidation.TryValidateFormat(settings.Format, out var formatError))
         {
