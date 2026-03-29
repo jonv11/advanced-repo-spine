@@ -27,6 +27,8 @@ app.Configure(config =>
         .WithDescription("Suggest where a path belongs according to the model.");
     config.AddCommand<ExportCommand>("export")
         .WithDescription("Export comparison results as JSON (alias for compare --format json).");
+    config.AddCommand<OutlineCommand>("outline")
+        .WithDescription("Display repository structure with Markdown heading outlines.");
 });
 
 try

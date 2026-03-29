@@ -121,6 +121,8 @@ These workflows define the product's purpose. The [capabilities](capabilities.md
 
 **Why it matters:** In repositories with rich documentation, the internal organization of documents is itself structural information. ARS should make this visible alongside the filesystem structure, supporting faster navigation and more informed reading decisions.
 
+**Supported by:** `ars outline` — displays a combined tree of directories, files, and Markdown heading outlines. See [PRD-0002](../prd/PRD-0002-repository-documentation-outline-view.md), [RFC-0007](../rfc/RFC-0007-ars-outline-command-design.md).
+
 ---
 
 ## Further Reading

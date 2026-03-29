@@ -11,6 +11,7 @@ Advanced Repo Spine (ARS) is a cross-platform .NET CLI that uses a JSON model to
 - **Report** missing, extra, misplaced, and unmatched items
 - **Suggest** where new files and folders should live
 - **Export** results as machine-readable JSON for automation and AI agents
+- **Outline** repository structure with Markdown heading outlines
 
 ## v1 CLI Commands
 
@@ -21,6 +22,7 @@ ars compare    # Compare repo against model
 ars report     # Display comparison results
 ars suggest    # Suggest location for a path
 ars export     # Export results as JSON
+ars outline    # Display repo structure with Markdown heading outlines
 ```
 
 ## Documentation

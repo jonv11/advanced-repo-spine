@@ -69,6 +69,7 @@ ars compare    # Compare repo against model
 ars report     # Display comparison results
 ars suggest    # Suggest location for a path
 ars export     # Export results as JSON
+ars outline    # Display repo structure with Markdown heading outlines
 ```
 
 ## When Writing Documentation

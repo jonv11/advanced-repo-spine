@@ -82,7 +82,7 @@ This capability bridges the gap between path-level discovery ("where do document
 
 **Supports workflows:** Document Structure Inspection, Source-of-Truth Discovery, Topic-to-Artifact Mapping.
 
-**Current status:** Designed for post-v1 implementation (`ars outline`). See [PRD-0002](../prd/PRD-0002-repository-documentation-outline-view.md), [RFC-0007](../rfc/RFC-0007-ars-outline-command-design.md), [ADR-0009](../adr/ADR-0009-add-ars-outline-command.md), [ADR-0010](../adr/ADR-0010-atx-headings-only-extraction.md), [ADR-0011](../adr/ADR-0011-flat-heading-list-under-file-nodes.md).
+**Current status:** Implemented in v1 (`ars outline`). See [PRD-0002](../prd/PRD-0002-repository-documentation-outline-view.md), [RFC-0007](../rfc/RFC-0007-ars-outline-command-design.md), [ADR-0009](../adr/ADR-0009-add-ars-outline-command.md), [ADR-0010](../adr/ADR-0010-atx-headings-only-extraction.md), [ADR-0011](../adr/ADR-0011-flat-heading-list-under-file-nodes.md).
 
 ---
 

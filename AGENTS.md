@@ -75,6 +75,18 @@ Sequential numbering, zero-padded to 4 digits.
 - Deterministic output ordering
 - Separation of concerns: CLI, model parsing, filesystem scanning, comparison engine, reporting
 
+## CLI Commands
+
+```
+ars init       # Create starter JSON model
+ars validate   # Validate JSON model
+ars compare    # Compare repo against model
+ars report     # Display comparison results
+ars suggest    # Suggest location for a path
+ars export     # Export results as JSON
+ars outline    # Display repo structure with Markdown heading outlines
+```
+
 ## Agent Workflow
 
 ### When creating documentation

@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | Proposed |
+| **Status** | Accepted |
 | **Date** | 2026-03-29 |
 | **Owner(s) / Deciders** | — |
 | **Related RFC** | [RFC-0007 — `ars outline` Command Design](../rfc/RFC-0007-ars-outline-command-design.md) |

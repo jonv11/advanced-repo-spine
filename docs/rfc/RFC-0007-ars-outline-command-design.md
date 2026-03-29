@@ -2,8 +2,8 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | Draft |
-| **Target Release** | post-v1 |
+| **Status** | Accepted |
+| **Target Release** | v1 |
 | **Owner(s)** | — |
 | **Reviewers** | — |
 | **Date** | 2026-03-29 |
