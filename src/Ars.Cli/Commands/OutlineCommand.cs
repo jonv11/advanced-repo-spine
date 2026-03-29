@@ -21,7 +21,8 @@ public sealed class OutlineSettings : CommandSettings
     public int? HeadingsDepth { get; set; }
 
     [CommandOption("--format <FORMAT>")]
-    [Description("Output format: text or json [default: text]")]
+    [Description("Output format: text or json")]
+    [DefaultValue("text")]
     public string Format { get; set; } = "text";
 }
 

@@ -11,7 +11,8 @@ namespace Ars.Cli.Commands;
 public sealed class InitSettings : CommandSettings
 {
     [CommandOption("--path")]
-    [Description("Path for the output model file [default: ars.json]")]
+    [Description("Path for the output model file")]
+    [DefaultValue("ars.json")]
     public string Path { get; set; } = "ars.json";
 
     [CommandOption("--force")]

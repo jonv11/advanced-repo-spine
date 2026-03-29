@@ -11,11 +11,13 @@ namespace Ars.Cli.Commands;
 public sealed class ValidateSettings : CommandSettings
 {
     [CommandOption("--model")]
-    [Description("Path to the JSON model file [default: ars.json]")]
+    [Description("Path to the JSON model file")]
+    [DefaultValue("ars.json")]
     public string Model { get; set; } = "ars.json";
 
     [CommandOption("--format")]
-    [Description("Output format: text or json [default: text]")]
+    [Description("Output format: text or json")]
+    [DefaultValue("text")]
     public string Format { get; set; } = "text";
 }
 
@@ -106,7 +108,7 @@ public sealed class ValidateCommand : Command<ValidateSettings>
         ErrorConsole.Stderr.MarkupLine($"[red]Validation failed with {errors.Count} error(s):[/]");
         foreach (var error in errors)
         {
-            ErrorConsole.Stderr.MarkupLine($"  [red]•[/] [{Markup.Escape(error.Location)}] {Markup.Escape(error.Message)}");
+            ErrorConsole.Stderr.MarkupLine($"  [red]•[/] [[{Markup.Escape(error.Location)}]] {Markup.Escape(error.Message)}");
         }
 
         return ExitCodes.InvalidInput;

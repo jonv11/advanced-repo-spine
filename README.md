@@ -36,9 +36,9 @@ See [`docs/README.md`](docs/README.md) for the full documentation landing page, 
 
 ## Project Status
 
-**Phase:** Documentation & design (pre-implementation)
+**Phase:** v1.0
 
-The product's own requirements are being defined using the same documentation standards the tool will enforce. See [PRD-0001](docs/prd/PRD-0001-ars-v1.md).
+The CLI is functional with 7 commands. See [PRD-0001](docs/prd/PRD-0001-advanced-repo-spine-v1.md).
 
 ## Technical Stack
 

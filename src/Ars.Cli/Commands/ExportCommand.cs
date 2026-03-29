@@ -6,11 +6,13 @@ namespace Ars.Cli.Commands;
 public sealed class ExportSettings : CommandSettings
 {
     [CommandOption("--model")]
-    [Description("Path to the JSON model file [default: ars.json]")]
+    [Description("Path to the JSON model file")]
+    [DefaultValue("ars.json")]
     public string Model { get; set; } = "ars.json";
 
     [CommandOption("--root")]
-    [Description("Root directory to compare against [default: .]")]
+    [Description("Root directory to compare against")]
+    [DefaultValue(".")]
     public string Root { get; set; } = ".";
 }
 

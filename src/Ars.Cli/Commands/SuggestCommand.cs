@@ -16,11 +16,13 @@ public sealed class SuggestSettings : CommandSettings
     public string Path { get; set; } = string.Empty;
 
     [CommandOption("--model")]
-    [Description("Path to the JSON model file [default: ars.json]")]
+    [Description("Path to the JSON model file")]
+    [DefaultValue("ars.json")]
     public string Model { get; set; } = "ars.json";
 
     [CommandOption("--format")]
-    [Description("Output format: text or json [default: text]")]
+    [Description("Output format: text or json")]
+    [DefaultValue("text")]
     public string Format { get; set; } = "text";
 }
 
@@ -62,7 +64,7 @@ public sealed class SuggestCommand : Command<SuggestSettings>
         {
             ErrorConsole.Stderr.MarkupLine($"[red]Model validation failed with {validationErrors.Count} error(s):[/]");
             foreach (var error in validationErrors)
-                ErrorConsole.Stderr.MarkupLine($"  [red]•[/] [{Markup.Escape(error.Location)}] {Markup.Escape(error.Message)}");
+                ErrorConsole.Stderr.MarkupLine($"  [red]•[/] [[{Markup.Escape(error.Location)}]] {Markup.Escape(error.Message)}");
             return ExitCodes.InvalidInput;
         }
 
@@ -74,7 +76,8 @@ public sealed class SuggestCommand : Command<SuggestSettings>
             return ExitCodes.Success;
         }
 
-        AnsiConsole.MarkupLine($"[bold]Suggest:[/] {Markup.Escape(settings.Path)}");
+        var displayPath = settings.Path.Replace('\\', '/');
+        AnsiConsole.MarkupLine($"[bold]Suggest:[/] {Markup.Escape(displayPath)}");
         AnsiConsole.WriteLine();
 
         if (result.Suggestions.Count == 0)
