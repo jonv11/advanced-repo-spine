@@ -150,7 +150,7 @@ jobs:
           "tag=$tag" >> $env:GITHUB_OUTPUT
 
       - name: Download packaged artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v8
         with:
           path: ${{ runner.temp }}/release-assets
           merge-multiple: true
